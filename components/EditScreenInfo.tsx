@@ -5,10 +5,18 @@ import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 
-export default function EditScreenInfo({ path }: { path: string }) {
+export default function EditScreenInfo(props:any) {
+  const { path, title } = props;
   return (
     <View>
       <View style={styles.getStartedContainer}>
+        <Text
+          style={styles.getStartedText}
+          lightColor="rgba(0,0,0,0.8)"
+          darkColor="rgba(255,255,255,0.8)">
+          {title}
+        </Text>
+
         <Text
           style={styles.getStartedText}
           lightColor="rgba(0,0,0,0.8)"
