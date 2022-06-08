@@ -27,7 +27,7 @@ export default function MediaPlayerScreen({ route, navigation }: RootTabScreenPr
   }
   
   const stopSound = async () => {
-    await sound.stopAsync();
+    await sound && sound.stopAsync();
   }
 
   React.useEffect(() => {
