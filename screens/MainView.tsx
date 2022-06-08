@@ -78,7 +78,7 @@ const DATA = [
             contentType: 'audio',
             clickable: true
         }, {
-            title: 'THE BODY YOUR DESERVE',
+            title: 'THE BODY YOU DESERVE',
             subtitle: 'Sustainable Weight Loss Strategies t...',
             category: 'Health & Energy',
             imageUrlId: 685,
