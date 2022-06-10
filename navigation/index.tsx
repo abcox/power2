@@ -20,6 +20,7 @@ import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../typ
 import LinkingConfiguration from './LinkingConfiguration';
 import MainView from '../screens/MainView';
 import MediaPlayer from '../screens/MediaPlayer';
+import MediaPlayer2 from '../screens/media-player';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -45,7 +46,7 @@ function RootNavigator() {
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
-      <Stack.Screen name="MediaPlayer" component={MediaPlayer} options={{ title: 'Media Player' }} />
+      <Stack.Screen name="MediaPlayer" component={MediaPlayer2} options={{ title: 'Media Player' }} />
     </Stack.Navigator>
   );
 }
