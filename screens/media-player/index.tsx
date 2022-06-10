@@ -109,9 +109,9 @@ const ICON_UNMUTED_BUTTON = {
     height: 58
 };
 
-const ICON_TRACK_1 = new Icon(require("../../assets/images/media-player/track_1.png"), 166, 5);
-const ICON_THUMB_1 = new Icon(require("../../assets/images/media-player/thumb_1.png"), 18, 19);
-const ICON_THUMB_2 = new Icon(require("../../assets/images/media-player/thumb_2.png"), 15, 19);
+const ICON_TRACK_1 = {uri:require("../../assets/images/media-player/track_1.png"), width:166, height:5};
+const ICON_THUMB_1 = {uri:require("../../assets/images/media-player/thumb_1.png"), width:18, height:19};
+const ICON_THUMB_2 = {uri:require("../../assets/images/media-player/thumb_2.png"), width:15, height:19};
 
 const LOOPING_TYPE_ALL = 0;
 const LOOPING_TYPE_ONE = 1;
@@ -120,7 +120,7 @@ const LOOPING_TYPE_ICONS = [{ id: 0, source: ICON_LOOP_ALL_BUTTON }, { id: 1, so
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 const BACKGROUND_COLOR = "#FFF8ED";
 const DISABLED_OPACITY = 0.5;
-const FONT_SIZE = 14;
+const FONT_SIZE = 18;
 const LOADING_STRING = "... loading ...";
 const BUFFERING_STRING = "...buffering...";
 const RATE_SCALE = 3.0;
@@ -439,11 +439,11 @@ export default class MediaPlayer2 extends Component<MediaPlayerProps, MediaPlaye
     };
 
     _onRateSliderSlidingComplete = async (value: number) => {
-        this._trySetRate(value * RATE_SCALE, this.state.shouldCorrectPitch);
+        this._trySetRate(value * RATE_SCALE, value === 1);
     };
 
-    _onPitchCorrectionPressed = async (value: number) => {
-        this._trySetRate(this.state.rate, !this.state.shouldCorrectPitch);
+    _onPitchCorrectionPressed = async () => {
+        this._trySetRate(1.0, true);
     };
 
     _onSeekSliderValueChange = (value: number) => {
@@ -585,7 +585,7 @@ export default class MediaPlayer2 extends Component<MediaPlayerProps, MediaPlaye
                     <Slider
                         style={styles.playbackSlider}
                         //trackImage={ICON_TRACK_1.module}
-                        //thumbImage={ICON_THUMB_1.module}
+                        thumbImage={ICON_THUMB_1.uri}
                         value={this._getSeekSliderPosition()}
                         onValueChange={this._onSeekSliderValueChange}
                         onSlidingComplete={this._onSeekSliderSlidingComplete}
@@ -685,7 +685,7 @@ export default class MediaPlayer2 extends Component<MediaPlayerProps, MediaPlaye
                         <Slider
                             style={styles.volumeSlider}
                             //trackImage={ICON_TRACK_1.module}
-                            //thumbImage={ICON_THUMB_2.module}
+                            thumbImage={ICON_THUMB_2.uri}
                             value={1}
                             onValueChange={this._onVolumeSliderValueChange}
                         />
@@ -710,7 +710,7 @@ export default class MediaPlayer2 extends Component<MediaPlayerProps, MediaPlaye
                     <TouchableHighlight
                         underlayColor={BACKGROUND_COLOR}
                         style={styles.wrapper}
-                        onPress={() => this._trySetRate(1.0, this.state.shouldCorrectPitch)}
+                        onPress={() => this._trySetRate(1.0, true)}
                     >
                         <View style={styles.button}>
                             <Text
@@ -723,14 +723,14 @@ export default class MediaPlayer2 extends Component<MediaPlayerProps, MediaPlaye
                     <Slider
                         style={styles.rateSlider}
                         //trackImage={ICON_TRACK_1.module}
-                        //thumbImage={ICON_THUMB_1.module}
+                        thumbImage={ICON_THUMB_1.uri}
                         value={this.state.rate / RATE_SCALE}
                         onSlidingComplete={this._onRateSliderSlidingComplete}
                     />
                     <TouchableHighlight
                         underlayColor={BACKGROUND_COLOR}
                         style={styles.wrapper}
-                        onPress={() => this._onPitchCorrectionPressed}
+                        onPress={() => this._onPitchCorrectionPressed()}
                     >
                         <View style={styles.button}>
                             <Text
@@ -755,6 +755,14 @@ export default class MediaPlayer2 extends Component<MediaPlayerProps, MediaPlaye
                         />
                     </TouchableHighlight> */}
                 </View>
+            {/* <View>
+                <Text>
+                    rate:{this.state.rate.toString()}
+                </Text>
+                <Text>
+                    shouldCorrectPitch:'{this.state.shouldCorrectPitch.toString()}'
+                </Text>
+            </View> */}
                 <View />
                 {this.state.showVideo ? (
                     <View>
@@ -840,7 +848,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {},
     nameContainer: {
-        height: FONT_SIZE
+        height: FONT_SIZE * 1.5
     },
     space: {
         height: FONT_SIZE
@@ -873,7 +881,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: FONT_SIZE,
-        minHeight: FONT_SIZE
+        minHeight: FONT_SIZE * 1.5
     },
     buffering: {
         textAlign: "left",
